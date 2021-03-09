@@ -6,13 +6,13 @@ from distributor.models import Tag, Category, Product
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
-        fields = 'name'.split()
+        fields = 'id title text created updated'.split()
 
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = 'name'.split()
+        fields = 'id title text created updated'.split()
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -24,4 +24,4 @@ class ProductSerializer(serializers.ModelSerializer):
         fields = 'id title text is_active created updated category tags'.split()
 
     def get_category(self, obj):
-        return obj.category.name
+        return obj.category.title

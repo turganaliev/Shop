@@ -12,7 +12,7 @@ class ImageProduct(admin.ModelAdmin):
 
     image_tag.short_description = 'Image'
     image_tag.allow_tags = True
-    list_display = ['image_tag',]
+    list_display = ['image_tag', ]
 
 
 class ImageInline(admin.StackedInline):
@@ -28,7 +28,20 @@ class ProductAdmin(admin.ModelAdmin):
     inlines = [ImageInline]
 
 
-admin.site.register(Tag)
-admin.site.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = 'id title text created updated'.split()
+    readonly_fields = 'created updated'.split()
+    search_fields = 'title text'.split()
+    list_filter = 'updated'.split()
+
+class TagAdmin(admin.ModelAdmin):
+    list_display = 'id title text created updated'.split()
+    readonly_fields = 'created updated'.split()
+    search_fields = 'title text'.split()
+    list_filter = 'updated'.split()
+
+
+admin.site.register(Tag, TagAdmin)
+admin.site.register(Category, CategoryAdmin)
 admin.site.register(ProductImage, ImageProduct)
 admin.site.register(Product, ProductAdmin)

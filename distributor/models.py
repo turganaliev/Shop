@@ -5,17 +5,30 @@ from django.db.models import SET_NULL
 
 
 class Tag(models.Model):
-    name = models.CharField(max_length=100)
+    class Meta:
+        verbose_name = 'Тег'
+        verbose_name_plural = 'Теги'
+
+    title = models.CharField(max_length=100, verbose_name='Тег')
+    text = models.TextField(verbose_name='Текст', null=True, blank=True)
+    created = models.DateTimeField(auto_now_add=True, null=True, verbose_name='Дата создания')
+    updated = models.DateTimeField(auto_now=True, null=True, verbose_name='Дата обновления')
 
     def __str__(self):
-        return self.name
-
+        return str(self.title)
 
 class Category(models.Model):
-    name = models.CharField(max_length=100)
+    class Meta:
+        verbose_name = 'Категория'
+        verbose_name_plural = 'Категории'
+
+    title = models.CharField(max_length=100, verbose_name='Категория')
+    text = models.TextField(verbose_name='Текст', null=True, blank=True)
+    created = models.DateTimeField(auto_now_add=True, null=True, verbose_name='Дата создания')
+    updated = models.DateTimeField(auto_now=True, null=True, verbose_name='Дата обновления')
 
     def __str__(self):
-        return self.name
+        return str(self.title)
 
 
 class Product(models.Model):
@@ -32,8 +45,7 @@ class Product(models.Model):
     updated = models.DateTimeField(auto_now=True, null=True, verbose_name='Дата обновления')
 
     def __str__(self):
-        return self.title
-
+        return str(self.title)
 
 class ProductImage(models.Model):
     url = models.URLField(null=True)
