@@ -21,7 +21,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = 'id title category tags'.split()
+        fields = 'id title text is_active created updated category tags'.split()
 
     def get_category(self, obj):
         return obj.category.name
