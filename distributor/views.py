@@ -17,7 +17,7 @@ class ListCreateProductAPI(APIView, PageNumberPagination):
 
     def get(self, request):
         search = request.query_params.get('search', '')
-        category_id = request.query_params.get('category')
+        # category_id = request.query_params.get('category')
         products = Product.objects.filter(Q(title__icontains=search) |
                                           Q(text__icontains=search))
         results = self.paginate_queryset(products, request, view=self)
@@ -31,6 +31,46 @@ class ListCreateProductAPI(APIView, PageNumberPagination):
         product = Product.objects.create(title=title, text=text, category_id=category_id)
         product.save()
         return Response(status=status.HTTP_200_OK, data=ProductSerializer(product).data)
+
+
+class ListCreateCategoryAPI(APIView, PageNumberPagination):
+    allowed_methods = ['get', 'post']
+
+    def get(self, request):
+        search = request.query_params.get('search', '')
+        categorys = Category.objects.filter(Q(title__icontains=search) |
+                                            Q(text__icontains=search))
+        results = self.paginate_queryset(categorys, request, view=self)
+        data = CategorySerializer(results, many=True).data
+        return self.get_paginated_response(data)
+
+    def post(self, request):
+        title = request.data.get('title')
+        text = request.data.get('text')
+        category = Category.objects.create(title=title, text=text)
+        category.save()
+        data = CategorySerializer(category).data
+        return Response(status=status.HTTP_200_OK, data=data)
+
+
+class ListCreateTagAPI(APIView, PageNumberPagination):
+    allowed_methods = ['get', 'post']
+
+    def get(self, request):
+        search = request.query_params.get('search', '')
+        tags = Tag.objects.filter(Q(title__icontains=search) |
+                                  Q(text__icontains=search))
+        results = self.paginate_queryset(tags, request, view=self)
+        data = TagSerializer(results, many=True).data
+        return self.get_paginated_response(data)
+
+    def post(self, request):
+        title = request.data.get('title')
+        text = request.data.get('text')
+        tag = Tag.objects.create(title=title, text=text)
+        tag.save()
+        data = TagSerializer(tag).data
+        return Response(status=status.HTTP_200_OK, data=data)
 
 
 @api_view(['GET', 'POST'])
